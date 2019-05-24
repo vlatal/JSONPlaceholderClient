@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id "org.springframework.boot" version "2.1.5.RELEASE"
+    id "io.spring.dependency-management" version "1.0.7.RELEASE"
+    id "com.google.cloud.tools.jib" version "1.2.0"
+}
+
+bootJar {
+    baseName = 'json-placeholder-client'
+    version =  '0.0.1'
+}
+
+group 'us.futurio.dev'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    //mavenCentral()
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-hateoas:2.1.4.RELEASE"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8"
+
+    // Dev only
+    compile "org.springframework.boot:spring-boot-devtools:2.1.4.RELEASE"
+
+    compileOnly "org.projectlombok:lombok:1.18.8"
+
+    annotationProcessor "org.projectlombok:lombok:1.18.8"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+}
