@@ -1,9 +1,11 @@
 package us.futurio.dev.jsonplaceholderclient;
 
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,19 +32,25 @@ public class Application {
         return builder.build();
     }
 
-    @Bean
     public CommandLineRunner run() {
         return args -> {
             long userId = 2;
             if (args.length >= 1) {
                 try {
+                    System.out.println("args: " + args.length);
+                    log.info("NonOptionArgs: {}", args.length);
                     userId = Long.parseLong(args[0]);
                 } catch (Exception e) {
                 }
             }
+            System.out.println("args: " + args.length);
             ObjectMapper objectMapper = new ObjectMapper();
             Resource<User> userResource = userController.oneBriefDetail(userId);
-            objectMapper.writeValue(System.out, userResource.getContent());
+            try {
+                objectMapper.writeValue(System.out, userResource.getContent());
+            } catch (Exception e) {
+                log.error("Can not generate JSON.");
+            }
         };
     }
 }
